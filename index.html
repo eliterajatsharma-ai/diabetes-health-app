@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiabetesAI — Smart Diabetes Screening Chatbot</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────────── -->
+  <header class="app-header" role="banner">
+    <div class="app-logo" aria-hidden="true">🩺</div>
+    <div class="app-title-wrap">
+      <div class="app-title">DiabetesAI</div>
+      <div class="app-subtitle">Smart Diabetes Screening Assistant</div>
+    </div>
+    <div class="header-badge">🔬 Prototype</div>
+  </header>
+
+  <!-- ── Progress ───────────────────────────────────────────────────────────── -->
+  <div class="progress-section" role="status" aria-live="polite">
+    <div class="progress-label">
+      <span id="phaseLabel">Getting started...</span>
+    </div>
+    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="progressBar"></div>
+    </div>
+  </div>
+
+  <!-- ── Messages ───────────────────────────────────────────────────────────── -->
+  <main id="messages" role="log" aria-label="Chat conversation" aria-live="polite">
+    <!-- Typing indicator (always last child in DOM via CSS order) -->
+    <div id="typingIndicator" role="status" aria-label="Bot is typing">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </main>
+
+  <!-- ── Choice Buttons ─────────────────────────────────────────────────────── -->
+  <div id="choiceButtons" role="group" aria-label="Answer choices"></div>
+
+  <!-- ── Upload Section ─────────────────────────────────────────────────────── -->
+  <div id="uploadSection">
+    <button id="fileUploadBtn" aria-label="Upload lab report image">
+      📎 Upload Lab Report (Image)
+    </button>
+    <span style="font-size:0.78rem;color:#64748b">JPG, PNG, or WebP</span>
+  </div>
+  <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden aria-hidden="true" />
+
+  <!-- ── Input Bar ───────────────────────────────────────────────────────────── -->
+  <div class="input-section">
+    <textarea
+      id="userInput"
+      placeholder="Type your answer here..."
+      rows="1"
+      aria-label="Your message"
+      autocomplete="off"
+      spellcheck="true"
+    ></textarea>
+    <button id="sendBtn" aria-label="Send message" title="Send">
+      ➤
+    </button>
+  </div>
+
+  <!-- ── Disclaimer Bar ─────────────────────────────────────────────────────── -->
+  <div class="disclaimer-bar" role="note">
+    ⚠️ <strong>Medical Disclaimer:</strong> DiabetesAI is a screening tool only — not a substitute for professional medical diagnosis. Always consult a licensed physician.
+  </div>
+
+  <!-- ── API Setup Modal ────────────────────────────────────────────────────── -->
+  <div id="apiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-icon">🔑</div>
+      <h2 class="modal-title" id="modalTitle">Enable AI-Powered Analysis</h2>
+      <p class="modal-desc">
+        Enter your <strong>Google Gemini API key</strong> to enable intelligent conversation and advanced report image analysis.<br/><br/>
+        Get a free key at <a href="https://aistudio.google.com" target="_blank" rel="noopener">aistudio.google.com</a>
+      </p>
+
+      <input
+        type="password"
+        id="apiKeyInput"
+        placeholder="AIza... (paste your Gemini API key)"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Gemini API key"
+      />
+
+      <div class="modal-actions">
+        <button class="modal-btn-primary" id="apiSaveBtn">
+          ✅ Enable AI Mode
+        </button>
+        <button class="modal-btn-secondary" id="apiSkipBtn">
+          Skip →
+        </button>
+      </div>
+
+      <p class="modal-note">
+        🔒 Your API key is stored only in memory and never sent to our servers.<br/>
+        <em>Skipping uses smart rule-based analysis instead.</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Scripts ────────────────────────────────────────────────────────────── -->
+  <script type="module" src="app.js"></script>
+
+  <!-- Auto-resize textarea -->
+  <script>
+    const ta = document.getElementById('userInput');
+    ta?.addEventListener('input', () => {
+      ta.style.height = 'auto';
+      ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+    });
+  </script>
+</body>
+</html>
